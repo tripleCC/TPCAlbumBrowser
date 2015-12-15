@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored"-Wdeprecated"
 
 typedef NS_ENUM(NSInteger, TPCPhotoType) {
     TPCPhotoTypeThumbnail,
@@ -29,3 +31,4 @@ typedef NS_ENUM(NSInteger, TPCPhotoType) {
 - (void)fetchCameraRollAlbumsWithThumbnailSize:(CGSize)thumbnailSize completion: (void(^ _Nullable)(TPCAlbum * _Nullable album))completion;
 - (void)initPhotoesForAlbum:(TPCAlbum * _Nullable)album completion:(void(^ _Nullable)())completion;
 @end
+#pragma clang diagnostic pop

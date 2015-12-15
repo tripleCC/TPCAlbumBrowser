@@ -11,7 +11,8 @@
 #import <AssetsLibrary/AssetsLibrary.h>
 
 @implementation NSObject (TPCExtesion)
-
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored"-Wdeprecated"
 - (NSString *)tpc_localIdentifer {
     if ([self class] != [ALAsset class]) {
         return ((PHAsset *)self).localIdentifier;
@@ -29,4 +30,5 @@
         return [UIImage imageWithCGImage:asset.defaultRepresentation.fullResolutionImage].size;
     }
 }
+#pragma clang diagnostic pop
 @end

@@ -10,7 +10,8 @@
 #import "TPCAlbum.h"
 #import <Photos/Photos.h>
 #import <AssetsLibrary/AssetsLibrary.h>
-
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored"-Wdeprecated"
 @interface TPCAssetManager()
 {
     PHImageManager *_imageManager;
@@ -196,3 +197,6 @@ static TPCAssetManager *_instance;
     }
 }
 @end
+#pragma clang diagnostic pop
+
+
