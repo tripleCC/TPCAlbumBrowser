@@ -10,9 +10,21 @@
 
 @interface TPCAlbumController : UINavigationController
 + (instancetype)albumController;
+/**
+ *  照片选择最大张数
+ */
 @property (assign, nonatomic) NSInteger maxSelectedCount;
+/**
+ *  选择最大张数后回调
+ */
 @property (copy, nonatomic) void (^maxSelectedAction)(NSInteger count);
+/**
+ *  授权结果回调
+ */
 @property (copy, nonatomic) void (^authorizeCompletion)(BOOL authorized);
+/**
+ *  选择完成回调
+ */
 @property (copy, nonatomic) void (^selectedCompletion)(NSArray *images);
 @end
 
