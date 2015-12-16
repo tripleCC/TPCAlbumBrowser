@@ -64,14 +64,26 @@ static TPCAssetManager *_instance;
     _photoKitAvailable = photoKitAvailable;
 }
 
+- (void)requestAuthorizationCompletion:(void(^)())completion {
+    if (_photoKitAvailable) {
+        [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                !completion ? : completion();
+            });
+        }];
+    } else {
+        !completion ? : completion();
+    }
+}
+
 - (void)authorizationWithCompletion:(void(^)(BOOL authorized))completion {
     BOOL authorized = NO;
     if (_photoKitAvailable) {
         PHAuthorizationStatus authorizationStatus = [PHPhotoLibrary authorizationStatus];
-        authorized = authorizationStatus != PHAuthorizationStatusRestricted && authorizationStatus != PHAuthorizationStatusDenied;
+        authorized = authorizationStatus != PHAuthorizationStatusDenied;
     } else {
         ALAuthorizationStatus authorizationStatus = [ALAssetsLibrary authorizationStatus];
-        authorized = authorizationStatus != ALAuthorizationStatusRestricted && authorizationStatus != ALAuthorizationStatusDenied;
+        authorized = authorizationStatus != ALAuthorizationStatusDenied;
     }
     !completion ? : completion(authorized);
 }

@@ -30,5 +30,7 @@ typedef NS_ENUM(NSInteger, TPCPhotoType) {
 - (void)fetchAlbumsWithThumbnailSize:(CGSize)thumbnailSize completion:(void(^ _Nullable)(NSInteger index))completion;
 - (void)fetchCameraRollAlbumsWithThumbnailSize:(CGSize)thumbnailSize completion: (void(^ _Nullable)(TPCAlbum * _Nullable album))completion;
 - (void)initPhotoesForAlbum:(TPCAlbum * _Nullable)album completion:(void(^ _Nullable)())completion;
+- (void)requestAuthorizationCompletion:(void(^)())completion;
+- (void)authorizationWithCompletion:(void(^)(BOOL authorized))completion;
 @end
 #pragma clang diagnostic pop

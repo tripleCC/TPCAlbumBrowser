@@ -35,11 +35,16 @@ static NSString *const reuseIdentifier = @"TPCAlbumViewCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self pushToGridPhotoAtFirstTime];
-    [self setupNav];
-    [self setupSubviews];
-    [[TPCAssetManager sharedManager] fetchAlbumsWithThumbnailSize:CGSizeMake(cellHeight, cellHeight) completion:^(NSInteger index) {
-        [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
+    [[TPCAssetManager sharedManager] authorizationWithCompletion:^(BOOL authorized) {
+        !TPCAlbumNavVc.authorizeCompletion ? : TPCAlbumNavVc.authorizeCompletion(authorized);
+    }];
+    [[TPCAssetManager sharedManager] requestAuthorizationCompletion:^{
+        [self pushToGridPhotoAtFirstTime];
+        [self setupNav];
+        [self setupSubviews];
+        [[TPCAssetManager sharedManager] fetchAlbumsWithThumbnailSize:CGSizeMake(cellHeight, cellHeight) completion:^(NSInteger index) {
+            [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
+        }];
     }];
 }
 

@@ -12,10 +12,11 @@
 + (instancetype)albumController;
 @property (assign, nonatomic) NSInteger maxSelectedCount;
 @property (copy, nonatomic) void (^maxSelectedAction)(NSInteger count);
+@property (copy, nonatomic) void (^authorizeCompletion)(BOOL authorized);
 @property (copy, nonatomic) void (^selectedCompletion)(NSArray *images);
 @end
 
-#define albumNavVc ((TPCAlbumController *)(self.navigationController))
+#define TPCAlbumNavVc ((TPCAlbumController *)(self.navigationController))
 
 @interface TPCAlbumViewController : UITableViewController
 @end

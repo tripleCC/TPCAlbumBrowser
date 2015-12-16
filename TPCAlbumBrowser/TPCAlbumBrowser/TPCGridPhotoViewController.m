@@ -113,7 +113,7 @@ static const CGFloat tooBarViewH = 40;
         [[TPCAssetManager sharedManager] requestImageWithAsset:[selectedPhotoes[i] asset] targetSize:CGSizeZero type:TPCPhotoTypefullResolution completion:^(UIImage * _Nullable image) {
             [images addObject:image];
             if (i == maxCount - 1) {
-                !albumNavVc.selectedCompletion ? : albumNavVc.selectedCompletion(images);
+                !TPCAlbumNavVc.selectedCompletion ? : TPCAlbumNavVc.selectedCompletion(images);
             }
         }];
     }
@@ -191,10 +191,10 @@ static const CGFloat tooBarViewH = 40;
     if (photo.selected != selectedFlag) {
         photo.selected = selectedFlag;
         _selectedCount = selectedFlag ? _selectedCount + 1 : _selectedCount - 1;
-        if (_selectedCount > albumNavVc.maxSelectedCount) {
+        if (_selectedCount > TPCAlbumNavVc.maxSelectedCount) {
             photo.selected = NO;
-            _selectedCount = albumNavVc.maxSelectedCount;
-            !albumNavVc.maxSelectedAction ? : albumNavVc.maxSelectedAction(_selectedCount);
+            _selectedCount = TPCAlbumNavVc.maxSelectedCount;
+            !TPCAlbumNavVc.maxSelectedAction ? : TPCAlbumNavVc.maxSelectedAction(_selectedCount);
             return NO;
         } else {
             [self configToolBar];

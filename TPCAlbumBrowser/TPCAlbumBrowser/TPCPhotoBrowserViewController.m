@@ -64,11 +64,11 @@
 - (void)selectedButtonOnClicked:(UIButton *)sender {
     TPCPhoto *photo = _validPhotoes[_currentIndex];
     photo.selected = !photo.selected;
-    _selectedCount = photo.selected && _selectedCount <= albumNavVc.maxSelectedCount ? _selectedCount + 1 : _selectedCount - 1;
-    if (_selectedCount > albumNavVc.maxSelectedCount) {
+    _selectedCount = photo.selected && _selectedCount <= TPCAlbumNavVc.maxSelectedCount ? _selectedCount + 1 : _selectedCount - 1;
+    if (_selectedCount > TPCAlbumNavVc.maxSelectedCount) {
         photo.selected = NO;
-        _selectedCount = albumNavVc.maxSelectedCount;
-        !albumNavVc.maxSelectedAction ? : albumNavVc.maxSelectedAction(_selectedCount);
+        _selectedCount = TPCAlbumNavVc.maxSelectedCount;
+        !TPCAlbumNavVc.maxSelectedAction ? : TPCAlbumNavVc.maxSelectedAction(_selectedCount);
     } else {
         [self adjustSelectedButtonBySelectedFlag:photo.selected animate:YES];
     }
