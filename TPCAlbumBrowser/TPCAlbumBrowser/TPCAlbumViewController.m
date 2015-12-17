@@ -36,7 +36,12 @@ static NSString *const reuseIdentifier = @"TPCAlbumViewCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     [[TPCAssetManager sharedManager] authorizationWithCompletion:^(BOOL authorized) {
-        !TPCAlbumNavVc.authorizeCompletion ? : TPCAlbumNavVc.authorizeCompletion(authorized);
+        !TPCAlbumNavVc.authorizeCompletion ? : TPCAlbumNavVc.authorizeCompletion(authorized, ^{
+            NSURL * url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+            if([[UIApplication sharedApplication] canOpenURL:url]) {
+                [[UIApplication sharedApplication] openURL:url];
+            }
+        });
     }];
     [[TPCAssetManager sharedManager] requestAuthorizationCompletion:^{
         [self pushToGridPhotoAtFirstTime];

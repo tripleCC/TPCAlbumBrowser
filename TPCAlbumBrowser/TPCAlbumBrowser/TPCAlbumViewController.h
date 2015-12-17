@@ -21,7 +21,7 @@
 /**
  *  授权结果回调
  */
-@property (copy, nonatomic) void (^authorizeCompletion)(BOOL authorized);
+@property (copy, nonatomic) void (^authorizeCompletion)(BOOL authorized, void (^goSetting)());
 /**
  *  选择完成回调
  */

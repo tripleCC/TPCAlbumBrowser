@@ -14,12 +14,23 @@
     TPCAlbumController *vc = [TPCAlbumController albumController];
     vc.maxSelectedCount = 4;
     __weak typeof(vc) weakVc = vc;
-    [vc setAuthorizeCompletion:^(BOOL success) {
+    [vc setAuthorizeCompletion:^(BOOL success, void (^goSetting)()) {
         NSLog(@"%d", success);
         if (!success) {
-            [weakVc dismissViewControllerAnimated:YES completion:nil];
+            //            NSURL * url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+            //
+            //            if([[UIApplication sharedApplication] canOpenURL:url]) {
+            //
+            //                NSURL*url =[NSURL URLWithString:UIApplicationOpenSettingsURLString];
+            //                [[UIApplication sharedApplication] openURL:url];
+            //
+            //            }
+            [weakVc dismissViewControllerAnimated:NO completion:goSetting];
         }
     }];
+    
+    
+
     [vc setMaxSelectedAction:^(NSInteger c) {
         NSLog(@"%ld", c);
     }];
