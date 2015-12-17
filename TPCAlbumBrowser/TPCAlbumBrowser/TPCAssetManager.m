@@ -166,6 +166,7 @@ static TPCAssetManager *_instance;
         photoes = [NSMutableArray arrayWithCapacity:fetchResult.count];
         for (NSInteger i = 0; i < fetchResult.count; i++) {
             TPCPhoto *photo = [TPCPhoto photoWithAsset:fetchResult[i] selected:NO index:i];
+            photo.representedAssetIdentifier = [fetchResult[i] localIdentifier];
             [photoes addObject:photo];
         }
     } else {
@@ -173,6 +174,7 @@ static TPCAssetManager *_instance;
         [(ALAssetsGroup *)album.collection enumerateAssetsUsingBlock:^(ALAsset *result, NSUInteger index, BOOL *stop) {
             if (result) {
                 TPCPhoto *photo = [TPCPhoto photoWithAsset:result selected:NO index:index];
+                photo.representedAssetIdentifier = [[result defaultRepresentation] filename];
                 [photoes addObject:photo];
             }
         }];

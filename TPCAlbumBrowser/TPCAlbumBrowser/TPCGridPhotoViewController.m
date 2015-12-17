@@ -171,14 +171,14 @@ static const CGFloat tooBarViewH = 40;
     TPCGridViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
     TPCPhoto *photo = _result.photoes[indexPath.item];
     if (indexPath.item < _result.photoes.count) {
-        cell.representedAssetIdentifier = photo.asset.tpc_localIdentifer;
+        cell.representedAssetIdentifier = photo.representedAssetIdentifier;
         __weak typeof(self) weakSelf = self;
         [cell setCallBack:^BOOL (BOOL selected){
             return [weakSelf setContentBySelectedFlag:selected photo:photo];
         }];
         cell.imageSelected = photo.selected;
         [[TPCAssetManager sharedManager] requestImageWithAsset:photo.asset targetSize:assetGridThumbnailSize completion:^(UIImage * _Nullable image) {
-            if ([cell.representedAssetIdentifier isEqualToString:photo.asset.tpc_localIdentifer]) {
+            if ([cell.representedAssetIdentifier isEqualToString:photo.representedAssetIdentifier]) {
                 cell.thumbnailImage = image;
             }
         }];
