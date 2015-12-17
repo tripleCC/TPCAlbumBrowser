@@ -107,13 +107,19 @@ static const CGFloat tooBarViewH = 40;
 
 - (void)sendButtonOnClicked {
     NSArray *selectedPhotoes = [self selectedPhotoes];
-    NSMutableArray *images = [NSMutableArray array];
     NSInteger maxCount = selectedPhotoes.count > 5 ? 5 : selectedPhotoes.count;
-    for (NSInteger i = 0; i < maxCount; i++) {
-        [[TPCAssetManager sharedManager] requestImageWithAsset:[selectedPhotoes[i] asset] targetSize:CGSizeZero type:TPCPhotoTypefullResolution completion:^(UIImage * _Nullable image) {
-            [images addObject:image];
-            if (i == maxCount - 1) {
-                !TPCAlbumNavVc.selectedCompletion ? : TPCAlbumNavVc.selectedCompletion(images);
+    NSMutableArray *images = [NSMutableArray arrayWithCapacity:maxCount];
+    NSMutableArray *imageIdentifiers = [NSMutableArray arrayWithCapacity:maxCount];
+    __block NSInteger imageCount = 0;
+    for (TPCPhoto *photo in selectedPhotoes) {
+        [[TPCAssetManager sharedManager] requestImageWithAsset:photo.asset targetSize:CGSizeZero type:TPCPhotoTypefullResolution completion:^(UIImage * _Nullable image) {
+            imageCount++;
+            if (image) {
+                [images addObject:image];
+                [imageIdentifiers addObject:photo.representedAssetIdentifier];
+                if (imageCount == maxCount) {
+                    !TPCAlbumNavVc.selectedCompletion ? : TPCAlbumNavVc.selectedCompletion(images, imageIdentifiers);
+                }
             }
         }];
     }

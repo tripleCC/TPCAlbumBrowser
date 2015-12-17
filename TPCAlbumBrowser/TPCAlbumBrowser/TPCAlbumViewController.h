@@ -26,7 +26,7 @@ typedef void (^TPCGoSetting)();
 /**
  *  选择完成回调
  */
-@property (copy, nonatomic) void (^selectedCompletion)(NSArray *images);
+@property (copy, nonatomic) void (^selectedCompletion)(NSArray *images, NSArray *imageIdentifiers);
 @end
 
 #define TPCAlbumNavVc ((TPCAlbumController *)(self.navigationController))

@@ -136,7 +136,13 @@ static TPCAssetManager *_instance;
 - (void)requestImageWithAsset:(NSObject *)asset targetSize:(CGSize)targetSize type:(TPCPhotoType)type completion:(void (^)(UIImage * _Nullable))completion {
     if (_photoKitAvailable) {
         if (type == TPCPhotoTypefullResolution) {
-            targetSize = PHImageManagerMaximumSize;
+            // 使用PHImageManagerMaximumSize, 视频就会无法发送
+            if ([(PHAsset *)asset mediaType] != PHAssetMediaTypeImage) {
+                // 视频就发截图
+                targetSize = CGSizeMake([UIScreen mainScreen].bounds.size.width * [UIScreen mainScreen].scale, [UIScreen mainScreen].bounds.size.height * [UIScreen mainScreen].scale);
+            } else {
+                targetSize = PHImageManagerMaximumSize;
+            }
         }
         [_imageManager requestImageForAsset:(PHAsset *)asset targetSize:targetSize contentMode:PHImageContentModeAspectFill  options:nil resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
             !completion ? : completion(result);
