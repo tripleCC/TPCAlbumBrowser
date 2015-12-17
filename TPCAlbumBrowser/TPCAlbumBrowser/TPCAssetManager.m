@@ -113,6 +113,7 @@ static TPCAssetManager *_instance;
 }
 
 - (void)fetchAlbumsWithThumbnailSize:(CGSize)thumbnailSize completion:(void(^)(NSInteger index))completion {
+    if (_albums.count != 0) { return; }
     if (_photoKitAvailable) {
         PHFetchResult *myPhotoStream = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeAlbum subtype:PHAssetCollectionSubtypeAlbumMyPhotoStream options:nil];
         PHFetchResult *smartAlbums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeAlbumCloudShared options:nil];
