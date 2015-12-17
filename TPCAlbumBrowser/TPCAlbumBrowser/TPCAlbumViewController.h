@@ -16,7 +16,9 @@ typedef void (^TPCGoSetting)();
  */
 @property (assign, nonatomic) NSInteger maxSelectedCount;
 
-/** 已选择照片标识 */
+/**
+ *  已选择照片标识
+ */
 @property (strong, nonatomic) NSArray<NSString *> *selectedImageIdentifiers;
 /**
  *  选择最大张数后回调

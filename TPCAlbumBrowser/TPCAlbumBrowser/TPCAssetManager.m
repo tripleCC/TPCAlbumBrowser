@@ -46,7 +46,6 @@ static TPCAssetManager *_instance;
 
 - (void)instanceInitial {
     _instance.photoKitAvailable = NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_7_1;
-    _instance.photoKitAvailable = NO;
     if (_photoKitAvailable) {
         _imageManager = [PHImageManager defaultManager];
     } else {
