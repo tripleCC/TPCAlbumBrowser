@@ -14,6 +14,7 @@
     TPCAlbumController *vc = [TPCAlbumController albumController];
     vc.maxSelectedCount = 4;
     __weak typeof(vc) weakVc = vc;
+    
     [vc setAuthorizeCompletion:^(BOOL success, void (^goSetting)()) {
         NSLog(@"%d", success);
         if (!success) {

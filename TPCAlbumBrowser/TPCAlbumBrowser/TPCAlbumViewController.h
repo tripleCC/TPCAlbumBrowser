@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void (^TPCGoSetting)();
 @interface TPCAlbumController : UINavigationController
 + (instancetype)albumController;
 /**
@@ -21,7 +22,7 @@
 /**
  *  授权结果回调
  */
-@property (copy, nonatomic) void (^authorizeCompletion)(BOOL authorized, void (^goSetting)());
+@property (copy, nonatomic) void (^authorizeCompletion)(BOOL authorized, TPCGoSetting goSetting);
 /**
  *  选择完成回调
  */
