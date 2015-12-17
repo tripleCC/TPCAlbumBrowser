@@ -17,7 +17,7 @@
     if ([self class] != [ALAsset class]) {
         return ((PHAsset *)self).localIdentifier;
     } else {
-        return ((ALAsset *)self).defaultRepresentation.filename;
+        return ((ALAsset *)self).defaultRepresentation.url.absoluteString;
     }
 }
 

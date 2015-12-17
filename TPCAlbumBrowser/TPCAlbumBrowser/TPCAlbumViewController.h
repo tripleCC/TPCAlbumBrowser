@@ -15,6 +15,9 @@ typedef void (^TPCGoSetting)();
  *  照片选择最大张数
  */
 @property (assign, nonatomic) NSInteger maxSelectedCount;
+
+/** 已选择照片标识 */
+@property (strong, nonatomic) NSArray<NSString *> *selectedImageIdentifiers;
 /**
  *  选择最大张数后回调
  */
@@ -26,7 +29,7 @@ typedef void (^TPCGoSetting)();
 /**
  *  选择完成回调
  */
-@property (copy, nonatomic) void (^selectedCompletion)(NSArray *images, NSArray *imageIdentifiers);
+@property (copy, nonatomic) void (^selectedCompletion)(NSArray *images, NSArray<NSString *> *imageIdentifiers);
 @end
 
 #define TPCAlbumNavVc ((TPCAlbumController *)(self.navigationController))

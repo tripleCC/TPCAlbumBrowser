@@ -46,6 +46,7 @@ static TPCAssetManager *_instance;
 
 - (void)instanceInitial {
     _instance.photoKitAvailable = NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_7_1;
+    _instance.photoKitAvailable = NO;
     if (_photoKitAvailable) {
         _imageManager = [PHImageManager defaultManager];
     } else {
@@ -135,7 +136,10 @@ static TPCAssetManager *_instance;
 
 - (void)requestImageWithAsset:(NSObject *)asset targetSize:(CGSize)targetSize type:(TPCPhotoType)type completion:(void (^)(UIImage * _Nullable))completion {
     if (_photoKitAvailable) {
+        PHImageRequestOptions *options = nil;
         if (type == TPCPhotoTypefullResolution) {
+            options = [[PHImageRequestOptions alloc] init];
+            options.synchronous = YES;
             // 使用PHImageManagerMaximumSize, 视频就会无法发送
             if ([(PHAsset *)asset mediaType] != PHAssetMediaTypeImage) {
                 // 视频就发截图
@@ -144,7 +148,7 @@ static TPCAssetManager *_instance;
                 targetSize = PHImageManagerMaximumSize;
             }
         }
-        [_imageManager requestImageForAsset:(PHAsset *)asset targetSize:targetSize contentMode:PHImageContentModeAspectFill  options:nil resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
+        [_imageManager requestImageForAsset:(PHAsset *)asset targetSize:targetSize contentMode:PHImageContentModeAspectFill  options:options resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
             !completion ? : completion(result);
         }];
     } else {
@@ -180,7 +184,7 @@ static TPCAssetManager *_instance;
         [(ALAssetsGroup *)album.collection enumerateAssetsUsingBlock:^(ALAsset *result, NSUInteger index, BOOL *stop) {
             if (result) {
                 TPCPhoto *photo = [TPCPhoto photoWithAsset:result selected:NO index:index];
-                photo.representedAssetIdentifier = [[result defaultRepresentation] filename];
+                photo.representedAssetIdentifier = [[result defaultRepresentation] url].absoluteString;
                 [photoes addObject:photo];
             }
         }];

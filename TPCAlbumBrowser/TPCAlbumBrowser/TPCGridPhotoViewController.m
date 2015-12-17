@@ -107,10 +107,11 @@ static const CGFloat tooBarViewH = 40;
 
 - (void)sendButtonOnClicked {
     NSArray *selectedPhotoes = [self selectedPhotoes];
-    NSInteger maxCount = selectedPhotoes.count > 5 ? 5 : selectedPhotoes.count;
+    NSInteger maxCount = selectedPhotoes.count > TPCAlbumNavVc.maxSelectedCount ? TPCAlbumNavVc.maxSelectedCount : selectedPhotoes.count;
     NSMutableArray *images = [NSMutableArray arrayWithCapacity:maxCount];
     NSMutableArray *imageIdentifiers = [NSMutableArray arrayWithCapacity:maxCount];
     __block NSInteger imageCount = 0;
+    _sendButton.userInteractionEnabled = NO;   // 防止点击过快造成内存过大崩溃
     for (TPCPhoto *photo in selectedPhotoes) {
         [[TPCAssetManager sharedManager] requestImageWithAsset:photo.asset targetSize:CGSizeZero type:TPCPhotoTypefullResolution completion:^(UIImage * _Nullable image) {
             imageCount++;
@@ -118,6 +119,7 @@ static const CGFloat tooBarViewH = 40;
                 [images addObject:image];
                 [imageIdentifiers addObject:photo.representedAssetIdentifier];
                 if (imageCount == maxCount) {
+                    _sendButton.userInteractionEnabled = YES;
                     !TPCAlbumNavVc.selectedCompletion ? : TPCAlbumNavVc.selectedCompletion(images, imageIdentifiers);
                 }
             }
@@ -165,6 +167,11 @@ static const CGFloat tooBarViewH = 40;
     _result = album;
     self.navigationItem.title = album.title;
     [[TPCAssetManager sharedManager] initPhotoesForAlbum:album completion:^{
+        for (TPCPhoto *photo in album.photoes) {
+            photo.selected = [TPCAlbumNavVc.selectedImageIdentifiers containsObject:photo.representedAssetIdentifier];
+        }
+        _selectedCount = self.selectedPhotoes.count;
+        [self configToolBar];
         [self.collectionView reloadData];
     }];
 }

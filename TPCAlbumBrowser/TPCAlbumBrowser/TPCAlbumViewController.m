@@ -25,6 +25,7 @@
 {
     NSMutableArray *_fetchResults;
     PHImageManager *_imageManager;
+    UIView *_maskView;
 }
 @end
 
@@ -35,6 +36,8 @@ static NSString *const reuseIdentifier = @"TPCAlbumViewCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self setupSubviews];
+    [self setMaskView];
     [[TPCAssetManager sharedManager] authorizationWithCompletion:^(BOOL authorized) {
         !TPCAlbumNavVc.authorizeCompletion ? : TPCAlbumNavVc.authorizeCompletion(authorized, ^{
             NSURL * url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
@@ -46,11 +49,21 @@ static NSString *const reuseIdentifier = @"TPCAlbumViewCell";
     [[TPCAssetManager sharedManager] requestAuthorizationCompletion:^{
         [self pushToGridPhotoAtFirstTime];
         [self setupNav];
-        [self setupSubviews];
+        [self removeMaskView];
         [[TPCAssetManager sharedManager] fetchAlbumsWithThumbnailSize:CGSizeMake(cellHeight, cellHeight) completion:^(NSInteger index) {
             [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
         }];
     }];
+}
+
+- (void)setMaskView {
+    _maskView = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    _maskView.backgroundColor = [UIColor whiteColor];
+    [self.tableView addSubview:_maskView];
+}
+
+- (void)removeMaskView {
+    [_maskView removeFromSuperview];
 }
 
 - (void)pushToGridPhotoAtFirstTime {

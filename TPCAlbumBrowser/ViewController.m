@@ -10,9 +10,13 @@
 #import "TPCAlbumViewController.h"
 
 @implementation ViewController
+{
+    NSArray *_imageIdentifers;
+}
 - (IBAction)present:(id)sender {
     TPCAlbumController *vc = [TPCAlbumController albumController];
-    vc.maxSelectedCount = 4;
+    vc.maxSelectedCount = 5;
+    vc.selectedImageIdentifiers = _imageIdentifers;
     __weak typeof(vc) weakVc = vc;
     
     [vc setAuthorizeCompletion:^(BOOL success, void (^goSetting)()) {
@@ -35,6 +39,13 @@
     [vc setMaxSelectedAction:^(NSInteger c) {
         NSLog(@"%ld", c);
     }];
+    
+    [vc setSelectedCompletion:^(NSArray *images, NSArray *imageIdentifers) {
+        NSLog(@"%@", imageIdentifers);
+        NSLog(@"%@", images);
+        _imageIdentifers = imageIdentifers;
+    }];
+    
     [self presentViewController:vc animated:YES completion:nil];
 }
 
